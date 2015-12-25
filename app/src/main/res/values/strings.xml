@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">ExploreApp</string>
+    <string name="title_activity_edit">Edit Activity</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="redirect_button">Redirect</string>
+    <string name="save_button">Save</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="shared_preferences_name">explore.shared</string>
+    <string name="sp_str_testField">testField</string>
+    <string name="title_activity_main2">Main2Activity</string>
+
+</resources>
