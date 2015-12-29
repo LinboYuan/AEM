@@ -1,1 +1,1 @@
-include ':app', ':activityeventmanager'
+include ':app', ':androideventmanager'

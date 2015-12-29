@@ -3,7 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/AEMTester.iml" filepath="$PROJECT_DIR$/AEMTester.iml" />
-      <module fileurl="file://$PROJECT_DIR$/activityeventmanager/activityeventmanager.iml" filepath="$PROJECT_DIR$/activityeventmanager/activityeventmanager.iml" />
+      <module fileurl="file://$PROJECT_DIR$/androideventmanager/androideventmanager.iml" filepath="$PROJECT_DIR$/androideventmanager/androideventmanager.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

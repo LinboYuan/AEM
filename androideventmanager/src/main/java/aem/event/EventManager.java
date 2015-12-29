@@ -6,6 +6,8 @@ import android.view.DragEvent;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Adapter;
+import android.widget.AdapterView;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -28,7 +30,10 @@ public abstract class EventManager
         View.OnDragListener,
         View.OnFocusChangeListener,
         View.OnClickListener,
-        View.OnCreateContextMenuListener {
+        View.OnCreateContextMenuListener,
+        AdapterView.OnItemClickListener,
+        AdapterView.OnItemLongClickListener,
+        AdapterView.OnItemSelectedListener {
 
     private final Map<Integer, Map<EventType, Method>> eventMap;
     protected final Activity activity;
@@ -40,34 +45,50 @@ public abstract class EventManager
     }
 
     private void setListener(View view, EventType eventType) {
+        if (eventType.isAdapterViewEvent()) {
+            AdapterView adapterView = (AdapterView) view;
+            switch (eventType) {
+                case OnItemClick:
+                    adapterView.setOnItemClickListener(this);
+                    return;
+                case OnItemLongClick:
+                    adapterView.setOnItemLongClickListener(this);
+                    return;
+                case OnItemSelected:
+                case OnNothingSelected:
+                    adapterView.setOnItemSelectedListener(this);
+                    return;
+            }
+        }
+
         switch (eventType) {
             case OnKey:
                 view.setOnKeyListener(this);
-                break;
+                return;
             case OnTouch:
                 view.setOnTouchListener(this);
-                break;
+                return;
             case OnHover:
                 view.setOnHoverListener(this);
-                break;
+                return;
             case OnGenericMotion:
                 view.setOnGenericMotionListener(this);
-                break;
+                return;
             case OnLongClick:
                 view.setOnLongClickListener(this);
-                break;
+                return;
             case OnDrag:
                 view.setOnDragListener(this);
-                break;
+                return;
             case OnFocusChange:
                 view.setOnFocusChangeListener(this);
-                break;
+                return;
             case OnClick:
                 view.setOnClickListener(this);
-                break;
+                return;
             case OnCreateContextMenu:
                 view.setOnCreateContextMenuListener(this);
-                break;
+                return;
         }
     }
 
@@ -97,6 +118,7 @@ public abstract class EventManager
 
     private Object invokeAction(EventType eventType, Object... args) {
         View view = null;
+        // get the view that the event is registered to, if there are multiple views in the args, the first one will be registered.
         for (Object obj : args) {
             if (obj instanceof View) {
                 view = (View) obj;
@@ -171,5 +193,25 @@ public abstract class EventManager
     @Override
     public boolean onTouch(View v, MotionEvent event) {
         return invokeActionReturnStatus(EventType.OnTouch, v, event);
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        invokeAction(EventType.OnItemClick, parent, view, position, id);
+    }
+
+    @Override
+    public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+        return invokeActionReturnStatus(EventType.OnItemLongClick, parent, view, position, id);
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        invokeAction(EventType.OnItemClick, parent, view, position, id);
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+        invokeAction(EventType.OnItemClick, parent);
     }
 }

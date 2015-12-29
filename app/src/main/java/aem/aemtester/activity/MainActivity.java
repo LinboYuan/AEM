@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import aem.aemtester.R;
@@ -18,8 +20,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        sharedPreferences = MainActivity.this.getSharedPreferences(this.getResources().getString(R.string.shared_preferences_name), MODE_PRIVATE);
+        sharedPreferences = this.getSharedPreferences(this.getResources().getString(R.string.shared_preferences_name), MODE_PRIVATE);
         new MainActivityEvent(this);
+        ListView listView = (ListView) this.findViewById(R.id.mainList);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, new String[]{"testListItem1", "testListItem2"});
+        listView.setAdapter(adapter);
     }
 
     @Override
