@@ -1,5 +1,7 @@
 package aem.event;
 
+import android.support.annotation.IdRes;
+
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -15,7 +17,7 @@ public @interface EventAnnotation {
      *
      * @return the view id that the event binds to.
      */
-    int value();
+    @IdRes int value();
 
     /**
      * Event type. If not specified, onClick will be set by default.
