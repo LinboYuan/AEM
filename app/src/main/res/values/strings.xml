@@ -10,5 +10,6 @@
     <string name="shared_preferences_name">explore.shared</string>
     <string name="sp_str_testField">testField</string>
     <string name="title_activity_main2">Main2Activity</string>
+    <string name="title_activity_play_with_views">PlayWithViewsActivity</string>
 
 </resources>

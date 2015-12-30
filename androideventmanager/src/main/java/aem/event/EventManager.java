@@ -6,8 +6,9 @@ import android.view.DragEvent;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Adapter;
 import android.widget.AdapterView;
+import android.widget.CompoundButton;
+import android.widget.RadioGroup;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -20,7 +21,7 @@ import java.util.Map;
  * Note: the return value match is not required but recommended. For method that requires return boolean type,
  * {@code true} will be returned by default if the method return type is not.
  */
-public abstract class EventManager
+public class EventManager
         implements
         View.OnKeyListener,
         View.OnTouchListener,
@@ -33,7 +34,9 @@ public abstract class EventManager
         View.OnCreateContextMenuListener,
         AdapterView.OnItemClickListener,
         AdapterView.OnItemLongClickListener,
-        AdapterView.OnItemSelectedListener {
+        AdapterView.OnItemSelectedListener,
+        RadioGroup.OnCheckedChangeListener,
+        CompoundButton.OnCheckedChangeListener {
 
     private final Map<Integer, Map<EventType, Method>> eventMap;
     protected final Activity activity;
@@ -44,51 +47,93 @@ public abstract class EventManager
         registerEvents();
     }
 
-    private void setListener(View view, EventType eventType) {
-        if (eventType.isAdapterViewEvent()) {
-            AdapterView adapterView = (AdapterView) view;
-            switch (eventType) {
-                case OnItemClick:
-                    adapterView.setOnItemClickListener(this);
-                    return;
-                case OnItemLongClick:
-                    adapterView.setOnItemLongClickListener(this);
-                    return;
-                case OnItemSelected:
-                case OnNothingSelected:
-                    adapterView.setOnItemSelectedListener(this);
-                    return;
+    /**
+     * @param view
+     * @param eventType
+     * @return a boolean value to indicate whether specified event type is particular.
+     */
+    private boolean setParticularListener(View view, EventType eventType) {
+        if (eventType.isRadioGroupEvent()) {
+            if (view instanceof RadioGroup) {
+
+                RadioGroup radioGroup = (RadioGroup) view;
+                switch (eventType) {
+                    case RadioGroup_OnCheckedChanged:
+                        radioGroup.setOnCheckedChangeListener(this);
+                        break;
+                }
             }
+
+            return true;
         }
 
-        switch (eventType) {
-            case OnKey:
-                view.setOnKeyListener(this);
-                return;
-            case OnTouch:
-                view.setOnTouchListener(this);
-                return;
-            case OnHover:
-                view.setOnHoverListener(this);
-                return;
-            case OnGenericMotion:
-                view.setOnGenericMotionListener(this);
-                return;
-            case OnLongClick:
-                view.setOnLongClickListener(this);
-                return;
-            case OnDrag:
-                view.setOnDragListener(this);
-                return;
-            case OnFocusChange:
-                view.setOnFocusChangeListener(this);
-                return;
-            case OnClick:
-                view.setOnClickListener(this);
-                return;
-            case OnCreateContextMenu:
-                view.setOnCreateContextMenuListener(this);
-                return;
+        if (eventType.isCompoundButtonEvent()) {
+            if (view instanceof CompoundButton) {
+                CompoundButton compoundButton = (CompoundButton) view;
+                switch (eventType) {
+                    case CompoundButton_OnCheckedChanged:
+                        compoundButton.setOnCheckedChangeListener(this);
+                        break;
+                }
+            }
+
+            return true;
+        }
+
+        if (eventType.isAdapterViewEvent()) {
+            if (view instanceof AdapterView) {
+                AdapterView adapterView = (AdapterView) view;
+                switch (eventType) {
+                    case AdapterView_OnItemClick:
+                        adapterView.setOnItemClickListener(this);
+                        break;
+                    case AdapterView_OnItemLongClick:
+                        adapterView.setOnItemLongClickListener(this);
+                        break;
+                    case AdapterView_OnItemSelected:
+                    case AdapterView_OnNothingSelected:
+                        adapterView.setOnItemSelectedListener(this);
+                        break;
+                }
+            }
+
+            return true;
+        }
+
+        return false;
+    }
+
+    private void setListener(View view, EventType eventType) {
+        if (!setParticularListener(view, eventType)) {
+            switch (eventType) {
+                case OnKey:
+                    view.setOnKeyListener(this);
+                    return;
+                case OnTouch:
+                    view.setOnTouchListener(this);
+                    return;
+                case OnHover:
+                    view.setOnHoverListener(this);
+                    return;
+                case OnGenericMotion:
+                    view.setOnGenericMotionListener(this);
+                    return;
+                case OnLongClick:
+                    view.setOnLongClickListener(this);
+                    return;
+                case OnDrag:
+                    view.setOnDragListener(this);
+                    return;
+                case OnFocusChange:
+                    view.setOnFocusChangeListener(this);
+                    return;
+                case OnClick:
+                    view.setOnClickListener(this);
+                    return;
+                case OnCreateContextMenu:
+                    view.setOnCreateContextMenuListener(this);
+                    return;
+            }
         }
     }
 
@@ -197,21 +242,31 @@ public abstract class EventManager
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        invokeAction(EventType.OnItemClick, parent, view, position, id);
+        invokeAction(EventType.AdapterView_OnItemClick, parent, view, position, id);
     }
 
     @Override
     public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-        return invokeActionReturnStatus(EventType.OnItemLongClick, parent, view, position, id);
+        return invokeActionReturnStatus(EventType.AdapterView_OnItemLongClick, parent, view, position, id);
     }
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        invokeAction(EventType.OnItemClick, parent, view, position, id);
+        invokeAction(EventType.AdapterView_OnItemSelected, parent, view, position, id);
     }
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
-        invokeAction(EventType.OnItemClick, parent);
+        invokeAction(EventType.AdapterView_OnNothingSelected, parent);
+    }
+
+    @Override
+    public void onCheckedChanged(RadioGroup group, int checkedId) {
+        invokeAction(EventType.RadioGroup_OnCheckedChanged, group, checkedId);
+    }
+
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        invokeAction(EventType.CompoundButton_OnCheckedChanged, buttonView, isChecked);
     }
 }

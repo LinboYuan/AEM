@@ -55,22 +55,32 @@ public enum EventType {
      * signature: (AdapterView<?> parent, View view, int position, long id)
      * return: void.
      */
-    OnItemClick(256),
+    AdapterView_OnItemClick(256),
     /**
      * signature: (AdapterView<?> parent, View view, int position, long id)
      * return: boolean.
      */
-    OnItemLongClick(512),
+    AdapterView_OnItemLongClick(512),
     /**
      * signature: (AdapterView<?> parent, View view, int position, long id)
      * return: void.
      */
-    OnItemSelected(1024),
+    AdapterView_OnItemSelected(1024),
     /**
      * signature: (AdapterView<?> parent)
      * return: boolean.
      */
-    OnNothingSelected(2048);
+    AdapterView_OnNothingSelected(2048),
+    /**
+     * signature: (RadioGroup group, int checkedId)
+     * return: void.
+     */
+    RadioGroup_OnCheckedChanged(4096),
+    /**
+     * signature: (CompoundButton buttonView, boolean isChecked)
+     * return: void.
+     */
+    CompoundButton_OnCheckedChanged(8192);
 
     private final int key;
 
@@ -79,6 +89,14 @@ public enum EventType {
     }
 
     public boolean isAdapterViewEvent() {
-        return (key & 3840) > 0; // Adapter view event type weight: 3840.
+        return (key & 3840) > 0; // Adapter view particular event type weight: 3840.
+    }
+
+    public boolean isRadioGroupEvent() {
+        return (key & 4096) > 0; // Radio group particular event type weight: 4096.
+    }
+
+    public boolean isCompoundButtonEvent() {
+        return (key & 8192) > 0; // Compound button particular event type weight: 4096.
     }
 }

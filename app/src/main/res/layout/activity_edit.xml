@@ -11,12 +11,11 @@
 
     <EditText
         android:id="@+id/msgTxt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/hello_world"
+        style="@style/WHWrapContentStyle"
         android:hint="input something to share."
-        android:textIsSelectable="true"
-        android:inputType="textAutoComplete" />
+        android:inputType="textAutoComplete"
+        android:text="@string/hello_world"
+        android:textIsSelectable="true" />
 
     <Button
         android:id="@+id/saveBtn"

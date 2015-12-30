@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import aem.aemtester.R;
 import aem.aemtester.activity.EditActivity;
+import aem.aemtester.activity.PlayWithViewsActivity;
 import aem.event.EventAnnotation;
 import aem.event.EventManager;
 import aem.event.EventType;
@@ -30,8 +31,14 @@ public class MainActivityEvent extends EventManager {
         return true;
     }
 
-    @EventAnnotation(value = R.id.mainList, eventType = EventType.OnItemClick)
-    private void onMainListItemClick(AdapterView<?> parent, View view, int position, long id){
+    @EventAnnotation(value = R.id.mainList, eventType = EventType.AdapterView_OnItemClick)
+    private void onMainListItemClick(AdapterView<?> parent, View view, int position, long id) {
         Toast.makeText(activity, "Main list item is clicked.", Toast.LENGTH_LONG).show();
+    }
+
+    @EventAnnotation(R.id.playViews)
+    private void onPlayViewsClick(View view) {
+        Intent intent = new Intent(activity, PlayWithViewsActivity.class);
+        activity.startActivity(intent);
     }
 }

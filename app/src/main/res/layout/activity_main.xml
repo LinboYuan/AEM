@@ -1,31 +1,35 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    style="@style/WHMatchParentStyle"
+    android:orientation="vertical"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:orientation="vertical"
     tools:context="aem.activity.activity.MainActivity">
 
     <TextView
         android:id="@+id/mainTxt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/DefaultTextViewStyle"
         android:text="@string/hello_world" />
 
-    <Button
-        android:id="@+id/redirectBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:text="@string/redirect_button" />
+    <LinearLayout
+        style="@style/WHWrapContentStyle"
+        android:layout_marginTop="50dp">
+
+        <Button
+            android:id="@+id/redirectBtn"
+            style="@style/WHWrapContentStyle"
+            android:text="@string/redirect_button" />
+
+        <Button
+            android:id="@+id/playViews"
+            style="@style/WHWrapContentStyle"
+            android:text="Play Views" />
+    </LinearLayout>
 
     <ListView
         android:id="@+id/mainList"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-    </ListView>
+        style="@style/WHWrapContentStyle"></ListView>
 
 </LinearLayout>

@@ -19,6 +19,10 @@
         <activity
             android:name=".activity.EditActivity"
             android:label="@string/title_activity_edit" />
+        <activity
+            android:name=".activity.PlayWithViewsActivity"
+            android:label="@string/title_activity_play_with_views" >
+        </activity>
     </application>
 
 </manifest>
