@@ -6,6 +6,7 @@ import android.widget.AdapterView;
 import android.widget.CompoundButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import java.text.MessageFormat;
@@ -35,5 +36,10 @@ public class PlayWithViewsActivityEvent extends EventManager {
     private void onSpinnerItemClick(AdapterView<?> parent, View view, int position, long id) {
         String item = (String) parent.getAdapter().getItem(position);
         Toast.makeText(activity, item + " is selected.", Toast.LENGTH_SHORT).show();
+    }
+
+    @EventAnnotation(value = R.id.timePicker, eventType = EventType.TimePicker_OnTimeChanged)
+    private void onTimePickTimeChanged(TimePicker view, int hourOfDay, int minute) {
+        Toast.makeText(activity, MessageFormat.format("Time changed to {0}:{1} ", hourOfDay, minute), Toast.LENGTH_SHORT).show();
     }
 }

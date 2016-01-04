@@ -36,4 +36,8 @@
     <Spinner
         android:id="@+id/spinner"
         android:layout_column="1" />
+
+    <TimePicker
+        android:id="@+id/timePicker"
+        style="@style/WHWrapContentStyle" />
 </GridLayout>

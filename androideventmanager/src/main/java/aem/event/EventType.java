@@ -50,7 +50,7 @@ public enum EventType {
      */
     OnCreateContextMenu(128),
 
-    // Adapter view event type weight: 3840.
+    // Adapter view event type weight: 256+512+1024+2048=3840.
     /**
      * signature: (AdapterView<?> parent, View view, int position, long id)
      * return: void.
@@ -71,6 +71,7 @@ public enum EventType {
      * return: boolean.
      */
     AdapterView_OnNothingSelected(2048),
+
     /**
      * signature: (RadioGroup group, int checkedId)
      * return: void.
@@ -80,7 +81,12 @@ public enum EventType {
      * signature: (CompoundButton buttonView, boolean isChecked)
      * return: void.
      */
-    CompoundButton_OnCheckedChanged(8192);
+    CompoundButton_OnCheckedChanged(8192),
+    /**
+     * signature: onTimeChanged(TimePicker view, int hourOfDay, int minute)
+     * return: void.
+     */
+    TimePicker_OnTimeChanged(16384);
 
     private final int key;
 
@@ -88,15 +94,19 @@ public enum EventType {
         this.key = key;
     }
 
-    public boolean isAdapterViewEvent() {
+    boolean isAdapterViewEvent() {
         return (key & 3840) > 0; // Adapter view particular event type weight: 3840.
     }
 
-    public boolean isRadioGroupEvent() {
+    boolean isRadioGroupEvent() {
         return (key & 4096) > 0; // Radio group particular event type weight: 4096.
     }
 
-    public boolean isCompoundButtonEvent() {
-        return (key & 8192) > 0; // Compound button particular event type weight: 4096.
+    boolean isCompoundButtonEvent() {
+        return (key & 8192) > 0; // Compound button particular event type weight: 8192.
+    }
+
+    boolean isTimePickerEvent() {
+        return (key & 16384) > 0; // Compound button particular event type weight: 16384.
     }
 }

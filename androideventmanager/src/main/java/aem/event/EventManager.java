@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CompoundButton;
 import android.widget.RadioGroup;
+import android.widget.TimePicker;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -21,7 +22,7 @@ import java.util.Map;
  * Note: the return value match is not required but recommended. For method that requires return boolean type,
  * {@code true} will be returned by default if the method return type is not.
  */
-public class EventManager
+public abstract class EventManager
         implements
         View.OnKeyListener,
         View.OnTouchListener,
@@ -36,7 +37,8 @@ public class EventManager
         AdapterView.OnItemLongClickListener,
         AdapterView.OnItemSelectedListener,
         RadioGroup.OnCheckedChangeListener,
-        CompoundButton.OnCheckedChangeListener {
+        CompoundButton.OnCheckedChangeListener,
+        TimePicker.OnTimeChangedListener {
 
     private final Map<Integer, Map<EventType, Method>> eventMap;
     protected final Activity activity;
@@ -53,33 +55,6 @@ public class EventManager
      * @return a boolean value to indicate whether specified event type is particular.
      */
     private boolean setParticularListener(View view, EventType eventType) {
-        if (eventType.isRadioGroupEvent()) {
-            if (view instanceof RadioGroup) {
-
-                RadioGroup radioGroup = (RadioGroup) view;
-                switch (eventType) {
-                    case RadioGroup_OnCheckedChanged:
-                        radioGroup.setOnCheckedChangeListener(this);
-                        break;
-                }
-            }
-
-            return true;
-        }
-
-        if (eventType.isCompoundButtonEvent()) {
-            if (view instanceof CompoundButton) {
-                CompoundButton compoundButton = (CompoundButton) view;
-                switch (eventType) {
-                    case CompoundButton_OnCheckedChanged:
-                        compoundButton.setOnCheckedChangeListener(this);
-                        break;
-                }
-            }
-
-            return true;
-        }
-
         if (eventType.isAdapterViewEvent()) {
             if (view instanceof AdapterView) {
                 AdapterView adapterView = (AdapterView) view;
@@ -97,6 +72,24 @@ public class EventManager
                 }
             }
 
+            return true;
+        }
+
+        if (eventType.isRadioGroupEvent() && view instanceof RadioGroup) {
+            RadioGroup radioGroup = (RadioGroup) view;
+            radioGroup.setOnCheckedChangeListener(this);
+            return true;
+        }
+
+        if (eventType.isCompoundButtonEvent() && view instanceof CompoundButton) {
+            CompoundButton compoundButton = (CompoundButton) view;
+            compoundButton.setOnCheckedChangeListener(this);
+            return true;
+        }
+
+        if (eventType.isTimePickerEvent() && view instanceof TimePicker) {
+            TimePicker timePicker = (TimePicker) view;
+            timePicker.setOnTimeChangedListener(this);
             return true;
         }
 
@@ -268,5 +261,10 @@ public class EventManager
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         invokeAction(EventType.CompoundButton_OnCheckedChanged, buttonView, isChecked);
+    }
+
+    @Override
+    public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
+        invokeAction(EventType.TimePicker_OnTimeChanged, view, hourOfDay, minute);
     }
 }
