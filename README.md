@@ -97,3 +97,7 @@ Just initialize the event class in the corresponding activity's **onCreate** met
        * _OnTouch_
 
        * _RadioGroup_OnCheckedChanged_
+       
+       * _CompoundButton_OnCheckedChanged_
+       
+       * _TimePicker_OnTimeChanged_
