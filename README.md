@@ -1,11 +1,11 @@
-##Abstract
+##[Abstract](https://github.com/LinboYuan/AndroidEventManager/wiki)
 Android event manager is an utility class to simplify android listeners. It has encapsulated most of the view event listeners. When bind an event to a view, you just need declare a method that has the corresponding event args signature, and annotate it with the **_EventAnnotation_**. It contains a **_CommonEventManager_** which just has implemented listeners that declared in **_View_** class directly, and a **_FullEventManager_** that has impemented more listeners.
 
 We will get rid of the fussy listener's implementation by this utility. It is easy to use and uncouples activity with the views' event. Meanwhile, it has a good performance.
 
 It is open source and free to use.
 
-##How to use?
+##[How to use?](https://github.com/LinboYuan/AndroidEventManager/wiki/How-to-use%3F)
 **Step 1**:
 Define a class that extends the **_CommonEventManager_** or **_FullEventManager_** class, then you can define the event as you need. What we just need is annotating the method with **_EventAnnotation_**, and ensure the method has the proper signature. Note: _the return value match is not required but recommended_. E.g.
     
@@ -41,7 +41,7 @@ Just initialize the event class in the corresponding activity's **_onCreate_** m
         ...
     }
     
-##Document
+##[Document](https://github.com/LinboYuan/AndroidEventManager/wiki/Document)
 1. **CommonEventManager Members**
 
    **Field**:
