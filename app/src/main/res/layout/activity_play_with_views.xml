@@ -39,5 +39,29 @@
 
     <TimePicker
         android:id="@+id/timePicker"
-        style="@style/WHWrapContentStyle" />
+        style="@style/WHWrapContentStyle"
+        android:layout_columnSpan="2" />
+
+    <SeekBar
+        android:id="@+id/seekBar"
+        style="@style/WHWrapContentStyle"
+        android:layout_column="0"
+        android:max="100"
+        android:minWidth="200dp"
+        android:progress="10"
+        android:secondaryProgress="50" />
+
+    <TextView
+        android:id="@+id/seekBarTip"
+        android:layout_column="1"
+        android:minWidth="50dp" />
+
+    <RatingBar
+        android:id="@+id/ratingBar"
+        android:layout_column="0" />
+
+    <TextView
+        android:id="@+id/ratingBarTip"
+        android:layout_column="1"
+        android:minWidth="50dp" />
 </GridLayout>

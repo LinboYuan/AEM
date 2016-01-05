@@ -8,7 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import aem.aemtester.R;
-import aem.aemtester.event.PlayWithViewsActivityEvent;
+import aem.aemtester.event.PlayWithViewsActivityCommonEvent;
 
 public class PlayWithViewsActivity extends AppCompatActivity {
 
@@ -16,7 +16,7 @@ public class PlayWithViewsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play_with_views);
-        new PlayWithViewsActivityEvent(this);
+        new PlayWithViewsActivityCommonEvent(this);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, new String[]{"A", "B", "C", "D"});
         ((Spinner) findViewById(R.id.spinner)).setAdapter(adapter);
     }

@@ -5,89 +5,99 @@ package aem.event;
  */
 public enum EventType {
     /**
-     * signature: (View v, int keyCode, KeyEvent event)
+     * signature: (KeyEventEventArgs args)
      * return: boolean.
      */
     OnKey(0),
     /**
-     * signature: (View v, MotionEvent event)
+     * signature: (GenericMotionEventEventArgs args)
      * return: boolean.
      */
-    OnTouch(1),
+    OnTouch(0),
     /**
-     * signature: (View v, MotionEvent event)
+     * signature: (GenericMotionEventEventArgs args)
      * return: boolean.
      */
-    OnHover(2),
+    OnHover(0),
     /**
-     * signature: (View v, MotionEvent event)
+     * signature: (GenericMotionEventEventArgs args)
      * return: boolean.
      */
-    OnGenericMotion(4),
+    OnGenericMotion(0),
     /**
-     * signature: (View v)
+     * signature: (EventArgs args)
      * return: boolean.
      */
-    OnLongClick(8),
+    OnLongClick(0),
     /**
-     * signature: (View v, DragEvent event)
+     * signature: (DragEventEventArgs args)
      * return: boolean.
      */
-    OnDrag(16),
+    OnDrag(0),
     /**
-     * signature: (View v, boolean hasFocus)
+     * signature: (FocusChangeEventEventArgs args)
      * return: void.
      */
-    OnFocusChange(32),
+    OnFocusChange(0),
     /**
-     * signature: (View v)
+     * signature: (EventEventArgs args)
      * return: void.
      */
-    OnClick(64),
+    OnClick(0),
     /**
-     * signature: (ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo)
+     * signature: (ContextMenuEventEventArgs args)
      * return: void.
      */
-    OnCreateContextMenu(128),
+    OnCreateContextMenu(0),
 
-    // Adapter view event type weight: 256+512+1024+2048=3840.
+    // Adapter view event type weight: 1+2+4+8=15.
     /**
      * signature: (AdapterView<?> parent, View view, int position, long id)
      * return: void.
      */
-    AdapterView_OnItemClick(256),
+    AdapterView_OnItemClick(1),
     /**
      * signature: (AdapterView<?> parent, View view, int position, long id)
      * return: boolean.
      */
-    AdapterView_OnItemLongClick(512),
+    AdapterView_OnItemLongClick(2),
     /**
      * signature: (AdapterView<?> parent, View view, int position, long id)
      * return: void.
      */
-    AdapterView_OnItemSelected(1024),
+    AdapterView_OnItemSelected(4),
     /**
      * signature: (AdapterView<?> parent)
      * return: boolean.
      */
-    AdapterView_OnNothingSelected(2048),
+    AdapterView_OnNothingSelected(8),
 
     /**
      * signature: (RadioGroup group, int checkedId)
      * return: void.
      */
-    RadioGroup_OnCheckedChanged(4096),
+    RadioGroup_OnCheckedChanged(16),
     /**
      * signature: (CompoundButton buttonView, boolean isChecked)
      * return: void.
      */
-    CompoundButton_OnCheckedChanged(8192),
+    CompoundButton_OnCheckedChanged(32),
     /**
      * signature: onTimeChanged(TimePicker view, int hourOfDay, int minute)
      * return: void.
      */
-    TimePicker_OnTimeChanged(16384);
+    TimePicker_OnTimeChanged(64),
 
+    //Seek bar event type weight: 128+256+512=896.
+    SeekBar_OnProgressChanged(128),
+    SeekBar_OnStartTrackingTouch(256),
+    SeekBar_OnStopTrackingTouch(512),
+
+    RatingBar_OnRatingChanged(1024);
+
+    /**
+     * Event key. 0 if the event inherits from View.
+     */
     private final int key;
 
     EventType(int key) {
@@ -95,18 +105,26 @@ public enum EventType {
     }
 
     boolean isAdapterViewEvent() {
-        return (key & 3840) > 0; // Adapter view particular event type weight: 3840.
+        return (key & 15) > 0; // Adapter view particular event type weight: 15.
     }
 
     boolean isRadioGroupEvent() {
-        return (key & 4096) > 0; // Radio group particular event type weight: 4096.
+        return (key & 16) > 0; // Radio group particular event type weight: 16.
     }
 
     boolean isCompoundButtonEvent() {
-        return (key & 8192) > 0; // Compound button particular event type weight: 8192.
+        return (key & 32) > 0; // Compound button particular event type weight: 32.
     }
 
     boolean isTimePickerEvent() {
-        return (key & 16384) > 0; // Compound button particular event type weight: 16384.
+        return (key & 64) > 0; // Time picker particular event type weight: 64.
+    }
+
+    boolean isSeekbarEvent() {
+        return (key & 896) > 0; // Seek bar particular event type weight: 896.
+    }
+
+    boolean isRatingbarEvent() {
+        return (key & 1024) > 0; // Rating bar particular event type weight: 1024.
     }
 }

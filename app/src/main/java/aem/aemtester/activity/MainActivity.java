@@ -10,7 +10,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import aem.aemtester.R;
-import aem.aemtester.event.MainActivityEvent;
+import aem.aemtester.event.MainActivityCommonEvent;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         sharedPreferences = this.getSharedPreferences(this.getResources().getString(R.string.shared_preferences_name), MODE_PRIVATE);
-        new MainActivityEvent(this);
+        new MainActivityCommonEvent(this);
         ListView listView = (ListView) this.findViewById(R.id.mainList);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, new String[]{"testListItem1", "testListItem2"});
         listView.setAdapter(adapter);
