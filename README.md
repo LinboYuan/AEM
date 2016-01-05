@@ -1,5 +1,5 @@
 ##Abstract
-Android event manager is an utility class to simplify android listeners. It has encapsulated most of the view event listeners. When bind an event to a view, you just need declare a method that has the same signature with the event, and annotate it with the EventAnnotation.
+Android event manager is an utility class to simplify android listeners. It has encapsulated most of the view event listeners. When bind an event to a view, you just need declare a method that has the corresponding event args signature, and annotate it with the **_EventAnnotation_**. It contains a **_CommonEventManager_** which just has implemented listeners that declared in **_View_** class directly, and a **_FullEventManager_** that has impemented more listeners.
 
 We will get rid of the fussy listener's implementation by this utility. It is easy to use and uncouples activity with the views' event. Meanwhile, it has a good performance.
 
@@ -7,26 +7,26 @@ It is open source and free to use.
 
 ##How to use?
 **Step 1**:
-Define a class that extends the **EventManager** class(this is an abstract class that encapsulated/implemented all supported listeners), then you can define the event that you want as you wish. What we just need is annotating the method with **EventAnnotation**, and ensure the method has the same signature with the event that you want to bind to. Note: the return value match is not required but recommended. E.g.
+Define a class that extends the **_CommonEventManager_** or **_FullEventManager_** class, then you can define the event as you need. What we just need is annotating the method with **_EventAnnotation_**, and ensure the method has the proper signature. Note: _the return value match is not required but recommended_. E.g.
     
-    public class MainActivityEvent extends EventManager {
+    public class MainActivityEvent extends FullEventManager {
         public MainActivityEvent(Activity activity) {
             super(activity);
         }
 
         @EventAnnotation(R.id.redirectBtn) // or (value = R.id.redirectBtn, eventType = EventType.OnClick)
-        private void redirect(View view) {
+        private void redirect(EventArgs args) {
             // Do something.
         }
 
         @EventAnnotation(value = R.id.categoryList, eventType = EventType.AdapterView_OnItemClick)
-        private void onCategoryItemClick(AdapterView<?> parent, View view, int position, long id) {
+        private void onCategoryItemClick(AdapterViewEventArgs args) {
             // Do something.
         }
     }
 
 **Step 2**:
-Just initialize the event class in the corresponding activity's **onCreate** method. This will finished the register automatically.E.g.
+Just initialize the event class in the corresponding activity's **_onCreate_** method. This will finished the register automatically.E.g.
 
     public class MainActivity extends AppCompatActivity {
         @Override
@@ -42,11 +42,11 @@ Just initialize the event class in the corresponding activity's **onCreate** met
     }
     
 ##Document
-1. **EventManager Members**
+1. **CommonEventManager Members**
 
    **Field**:
 
-    * _protected final Activity activity_
+       * _protected final Activity activity_
 
        Des: Represent the activity that current event manager attached to.
 
@@ -55,8 +55,70 @@ Just initialize the event class in the corresponding activity's **onCreate** met
        * _protected EventManager(Activity activity)_
 
           Des: The only provided constructor with one parameter of Activity type.
+    
+   **Inner Types**:
 
-2. **EventAnnotation Members**
+       * _EventArgs_
+
+          Des: Base class of all event args class. Argument type of: **_OnClick_**, **_OnLongClick_**.
+
+       * _ContextMenuEventEventArgs_
+       
+          Des: Base class of all event args class. Argument type of: **_OnCreateContextMenu_**.
+
+       * _DragEventEventArgs_
+       
+          Des: Base class of all event args class. Argument type of: **_OnDrag_**.
+
+       * _FocusChangeEventEventArgs_
+       
+          Des: Base class of all event args class. Argument type of: **_OnFocusChange_**.
+
+       * _GenericMotionEventEventArgs_
+       
+          Des: Base class of all event args class. Argument type of: **_OnGenericMotion_**, **_OnHover_**, **_OnTouch_**.
+
+       * _KeyEventEventArgs_
+        
+          Des: Base class of all event args class. Argument type of: **_OnKey_**.
+
+       * _ContextMenuEventEventArgs_
+        
+          Des: Base class of all event args class. Argument type of: **_OnCreateContextMenu_**.
+
+2. **FullEventManager Members**
+
+   **Description**:
+   
+     Inherits from **_CommonEventManager_**.
+    
+   **Inner Types**:
+
+       *  _AdapterViewEventArgs_
+       
+          Des: Base class of all event args class. Argument type of: **_AdapterView_OnItemClick_**, **_AdapterView_OnItemLongClick_**, **_AdapterView_OnItemSelected_**, **_AdapterView_OnNothingSelected_**.
+
+       *  _RadioGroupEventArgs_
+       
+          Des: Base class of all event args class. Argument type of: **_RadioGroup_OnCheckedChanged_**.
+
+       *  _CompoundButtonEventArgs_
+       
+          Des: Base class of all event args class. Argument type of: **_CompoundButton_OnCheckedChanged_**.
+
+       *  _TimePickerEventArgs_
+       
+          Des: Base class of all event args class. Argument type of: **_TimePicker_OnTimeChanged_**.
+
+       * _SeekBarEventArgs_
+       
+          Des: Base class of all event args class. Argument type of: **_SeekBar_OnProgressChanged_**, **_SeekBar_OnStartTrackingTouch_**, **_SeekBar_OnStopTrackingTouch_**.
+
+       * _RatingBarEventArgs_
+       
+          Des: Base class of all event args class. Argument type of: **_RatingBar_OnRatingChanged_**.
+    
+3. **EventAnnotation Members**
 
        * _@IdRes int value_
 
@@ -66,7 +128,7 @@ Just initialize the event class in the corresponding activity's **onCreate** met
 
           Des: Event type. Optional. Default value is EventType.OnClick.
 
-3. **EventType Members**
+4. **EventType Members**
 
        * _AdapterView_OnItemClick_
 
@@ -101,3 +163,11 @@ Just initialize the event class in the corresponding activity's **onCreate** met
        * _CompoundButton_OnCheckedChanged_
        
        * _TimePicker_OnTimeChanged_
+       
+       * _SeekBar_OnProgressChanged_
+       
+       * _SeekBar_OnStartTrackingTouch_
+       
+       * _SeekBar_OnStopTrackingTouch_
+       
+       * _RatingBar_OnRatingChanged_
