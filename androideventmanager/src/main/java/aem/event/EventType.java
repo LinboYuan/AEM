@@ -52,47 +52,63 @@ public enum EventType {
 
     // Adapter view event type weight: 1+2+4+8=15.
     /**
-     * signature: (AdapterView<?> parent, View view, int position, long id)
+     * signature: (AdapterViewEventArgs args)
      * return: void.
      */
     AdapterView_OnItemClick(1),
     /**
-     * signature: (AdapterView<?> parent, View view, int position, long id)
+     * signature: (AdapterViewEventArgs args)
      * return: boolean.
      */
     AdapterView_OnItemLongClick(2),
     /**
-     * signature: (AdapterView<?> parent, View view, int position, long id)
+     * signature: (AdapterViewEventArgs args)
      * return: void.
      */
     AdapterView_OnItemSelected(4),
     /**
-     * signature: (AdapterView<?> parent)
+     * signature: (AdapterViewEventArgs args)
      * return: boolean.
      */
     AdapterView_OnNothingSelected(8),
 
     /**
-     * signature: (RadioGroup group, int checkedId)
+     * signature: (RadioGroupEventArgs args)
      * return: void.
      */
     RadioGroup_OnCheckedChanged(16),
     /**
-     * signature: (CompoundButton buttonView, boolean isChecked)
+     * signature: (CompoundButtonEventArgs args)
      * return: void.
      */
     CompoundButton_OnCheckedChanged(32),
     /**
-     * signature: onTimeChanged(TimePicker view, int hourOfDay, int minute)
+     * signature: (TimePickerEventArgs args)
      * return: void.
      */
     TimePicker_OnTimeChanged(64),
 
     //Seek bar event type weight: 128+256+512=896.
+    /**
+     * signature: (SeekBarEventArgs args)
+     * return: void.
+     */
     SeekBar_OnProgressChanged(128),
+    /**
+     * signature: (SeekBarEventArgs args)
+     * return: void.
+     */
     SeekBar_OnStartTrackingTouch(256),
+    /**
+     * signature: (SeekBarEventArgs args)
+     * return: void.
+     */
     SeekBar_OnStopTrackingTouch(512),
 
+    /**
+     * signature: (RatingBarEventArgs args)
+     * return: void.
+     */
     RatingBar_OnRatingChanged(1024);
 
     /**
